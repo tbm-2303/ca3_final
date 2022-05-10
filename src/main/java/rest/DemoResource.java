@@ -36,7 +36,6 @@ public class DemoResource {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final UserFacade FACADE = UserFacade.getUserFacade(EMF_Creator.createEntityManagerFactory());
 
-
     @Context
     private UriInfo context;
 
@@ -72,18 +71,11 @@ public class DemoResource {
 
         EntityManager em = EMF.createEntityManager();
 
-        // IMPORTAAAAAAAAAANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // This breaks one of the MOST fundamental security rules in that it ships with default users and passwords
-        // CHANGE the three passwords below, before you uncomment and execute the code below
-        // Also, either delete this file, when users are created or rename and add to .gitignore
-        // Whatever you do DO NOT COMMIT and PUSH with the real passwords
 
         User user = new User("timmy", "timmy123");
         User admin = new User("james", "james123");
         User both = new User("kent", "kent123");
 
-        if(admin.getUserPass().equals("test")||user.getUserPass().equals("test")||both.getUserPass().equals("test"))
-            throw new UnsupportedOperationException("You have not changed the passwords");
 
         em.getTransaction().begin();
         Role userRole = new Role("user");
@@ -98,10 +90,6 @@ public class DemoResource {
         em.persist(admin);
         em.persist(both);
         em.getTransaction().commit();
-        System.out.println("PW: " + user.getUserPass());
-        System.out.println("Testing user with OK password: " + user.verifyPassword("timmy123"));
-        System.out.println("Testing user with wrong password: " + user.verifyPassword("test1"));
-        System.out.println("Created TEST Users");
         return "{\"msg\":\"setup all good\"}";
     }
 
