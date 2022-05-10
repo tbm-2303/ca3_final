@@ -8,6 +8,8 @@
         <class>entities.User</class>
         <class>entities.Role</class>
         <class>entities.Timeline</class>
+        <class>entities.Spot</class>
+        <class>entities.Location</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <!-- DO NOT remove the line below. It's not set by the  entityUtils.EMF_Creator -->
