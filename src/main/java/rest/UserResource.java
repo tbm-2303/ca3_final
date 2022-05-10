@@ -15,7 +15,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("info")
+@Path("user")
 public class UserResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
@@ -97,6 +97,7 @@ public class UserResource {
     @DELETE
     @Path("{username}")
     @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed("admin")
     public Response delete(@PathParam("username") String username) throws NotFoundException, errorhandling.NotFoundException {
         UserDTO userDTO = new UserDTO(FACADE.delete(username));

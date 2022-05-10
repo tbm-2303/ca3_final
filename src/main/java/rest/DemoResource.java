@@ -29,7 +29,7 @@ import utils.HttpUtils;
 /**
  * @author lam@cphbusiness.dk
  */
-@Path("info")
+@Path("demo")
 public class DemoResource {
     
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
