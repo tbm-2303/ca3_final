@@ -118,12 +118,6 @@ public class UserFacade {
     }
 
 
-    public static void main(String[] args) {
-        emf = EMF_Creator.createEntityManagerFactory();
-        UserFacade userFacade = getUserFacade(emf);
-        userFacade.getAllUsers().forEach(dto->System.out.println(dto));
-    }
-
     public List<UserDTO> getAllUsers(){
         EntityManager em = emf.createEntityManager();
         TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);

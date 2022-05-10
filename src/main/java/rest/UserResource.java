@@ -15,7 +15,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("user")
+@Path("info")
 public class UserResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
@@ -28,11 +28,7 @@ public class UserResource {
     private UriInfo context;
 
 
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public String helloResource(){
-        return "{\"msg\":\"Hello World\"}";
-    }
+
 
 
     //test er ikke lavet

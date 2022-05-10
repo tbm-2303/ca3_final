@@ -29,7 +29,7 @@ import utils.HttpUtils;
 /**
  * @author lam@cphbusiness.dk
  */
-@Path("demo")
+@Path("info")
 public class DemoResource {
     
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
@@ -42,12 +42,7 @@ public class DemoResource {
     @Context
     SecurityContext securityContext;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getInfoForAll() {
-        return "{\"msg\":\"Hello anonymous\"}";
-    }
-
+    
     //Just to verify if the database is setup
     @GET
     @Produces(MediaType.APPLICATION_JSON)
