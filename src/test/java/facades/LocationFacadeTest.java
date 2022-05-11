@@ -44,7 +44,7 @@ public class LocationFacadeTest {
         EntityManager em = emf.createEntityManager();
         List<Role> basic = new ArrayList<>();
         basic.add(new Role("basic"));
-        User user = new User("Hans", "pass", "email1", basic);
+        User user = new User("Hans", "pass");
 
 
         location = new Location("Q1", "La La Land", "Country");

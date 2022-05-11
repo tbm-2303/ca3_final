@@ -42,7 +42,7 @@ public class TimelineFacadeTest {
         EntityManager em = emf.createEntityManager();
         List<Role> basic = new ArrayList<>();
         basic.add(new Role("basic"));
-        User user = new User("Hans", "pass", "email1", basic);
+        User user = new User("Hans", "pass");
 
 
         Location location = new Location("Q1", "La La Land", "Country");
@@ -79,8 +79,7 @@ public class TimelineFacadeTest {
         String endDate = "2022";
         List<Role> basic = new ArrayList<>();
         basic.add(new Role("test"));
-        User user = new User("Hans", "pass", "email1", basic);
-        user.setId(1);
+        User user = new User("Hans", "pass");
         Timeline timeline = new Timeline(name, description, startDate, endDate, user);
         TimelineDTO timelineDTO = new TimelineDTO(timeline);
 
@@ -96,7 +95,7 @@ public class TimelineFacadeTest {
         EntityManager em = emf.createEntityManager();
         Role role = new Role("test");
         List<Role> roles = new ArrayList<>();
-        User user= new User("Dorte", "Kodeord1", "dorte@email.dk", roles);
+        User user= new User("Dorte", "Kodeord1");
         Timeline timeline = new Timeline("My life", "This is a timeline about my life", "1977", "2051", user);
         try{
             em.getTransaction().begin();
