@@ -15,7 +15,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("info")
+@Path("user")
 public class UserResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
@@ -26,9 +26,6 @@ public class UserResource {
     SecurityContext securityContext;
     @Context
     private UriInfo context;
-
-
-
 
 
     //test er ikke lavet
