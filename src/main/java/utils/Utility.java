@@ -5,8 +5,6 @@
  */
 package utils;
 
-import dtos.RenameMeDTO;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -15,9 +13,6 @@ import java.util.Properties;
 import java.util.Set;
 import com.google.gson.*;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
