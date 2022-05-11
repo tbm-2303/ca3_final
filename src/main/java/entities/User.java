@@ -107,5 +107,4 @@ public class User implements Serializable {
         this.timelinelist.add(timeline);
         timeline.setUser(this);
     }
-
 }

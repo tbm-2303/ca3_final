@@ -26,9 +26,7 @@ import facades.UserFacade;
 import utils.EMF_Creator;
 import utils.HttpUtils;
 
-/**
- * @author lam@cphbusiness.dk
- */
+
 @Path("info")
 public class DemoResource {
     

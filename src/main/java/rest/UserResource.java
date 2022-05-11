@@ -27,7 +27,6 @@ public class UserResource {
     @Context
     private UriInfo context;
 
-
     //test er ikke lavet
     @POST
     @Path("/createuser")
