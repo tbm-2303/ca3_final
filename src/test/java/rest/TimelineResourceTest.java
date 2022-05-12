@@ -125,4 +125,9 @@ public class TimelineResourceTest {
                 assertEquals(2, timelineDTOList.size());
 
     }
+
+    @Test
+    public void deleteTimelineTest(){
+        
+    }
 }

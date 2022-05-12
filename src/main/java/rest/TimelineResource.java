@@ -47,4 +47,13 @@ public class TimelineResource {
         List<TimelineDTO> timelineDTOList = FACADE.getAll(u);
         return "All timelines: " + timelineDTOList;
     }
+
+    @DELETE
+    @Path("/delete/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("basic")
+    public String deleteTimeline(@PathParam("id") Integer id){
+        return "{\"result\":\"" + FACADE.deleteTimeline(id) + "\"}";
+    }
 }
