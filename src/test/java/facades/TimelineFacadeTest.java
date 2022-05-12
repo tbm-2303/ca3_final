@@ -139,5 +139,14 @@ public class TimelineFacadeTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    void deleteTimelineTest(){
+        Integer id = timeline.getId();
+        String actual = timelineFacade.deleteTimeline(id);
+        String expected = "The timeline has been deleted with id: " + id;
+
+        assertEquals(expected, actual);
+    }
 }
 

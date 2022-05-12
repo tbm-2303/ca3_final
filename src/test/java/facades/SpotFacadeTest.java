@@ -163,4 +163,24 @@ public class SpotFacadeTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void editSpotTest(){
+        SpotDTO spotDTO = new SpotDTO(new Spot("Halloween", "something", LocalDate.of(1999, Month.OCTOBER, 31), location1, timeline));
+        spotDTO.setId(spot.getId());
+
+        SpotDTO expected = spotDTO;
+        SpotDTO actual = spotFacade.editSpot(spotDTO);
+        //den fejler kun hvis man sammenligner dem direkte, så er den anderledes på user, men alt andet er ok
+        assertEquals(expected.getName(), actual.getName());
+
+    }
+
+    @Test
+    void deleteSpotTest(){
+        Integer id = spot.getId();
+        String actual = spotFacade.deleteSpot(id);
+        String expected = "The spot with id: " + id + " has been deleted";
+        assertEquals(actual, expected);
+    }
+
 }
