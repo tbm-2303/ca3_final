@@ -16,7 +16,6 @@ import java.util.List;
 @Path("timeline")
 public class TimelineResource {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
-
     private static final TimelineFacade FACADE = TimelineFacade.getTimelineFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -31,7 +30,6 @@ public class TimelineResource {
     //det skal sættes i frontenden - laves med en metode
     @POST
     @Produces({MediaType.APPLICATION_JSON})
-    @RolesAllowed("basic")
     @Path("/create")
     public String createTimeline(String timeline){
         TimelineDTO timelineDTO = GSON.fromJson(timeline, TimelineDTO.class);
