@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.TimelineDTO;
+import entities.User;
 import facades.TimelineFacade;
 import utils.EMF_Creator;
 
@@ -10,6 +11,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.util.List;
 
 @Path("timeline")
 public class TimelineResource {
@@ -36,5 +38,13 @@ public class TimelineResource {
         TimelineDTO createdTimeline = FACADE.createTimeline(timelineDTO);
         return GSON.toJson(createdTimeline);
 
+    }
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    @Path("/allTimelines")
+    public String getAllTimelines(User u){
+        List<TimelineDTO> timelineDTOList = FACADE.getAll(u);
+        return "All timelines: " + timelineDTOList;
     }
 }

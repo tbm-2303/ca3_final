@@ -1,5 +1,7 @@
 package entities;
 
+import dtos.RoleDTO;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -13,10 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Plaul
- */
+
 @Entity
 @NamedQueries(@NamedQuery(name = "Role.deleteAllRows", query = "DELETE FROM Role"))
 @Table(name = "roles")
@@ -39,6 +38,10 @@ public class Role implements Serializable {
 
     public Role(String roleName) {
         this.roleName = roleName;
+    }
+
+    public Role(RoleDTO role) {
+        this.roleName = role.getRole();
     }
 
     public String getRoleName() {

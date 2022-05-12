@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.LocationDTO;
 import dtos.SpotDTO;
 import dtos.TimelineDTO;
 import entities.Location;
@@ -11,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityResult;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.List;
 public class SpotFacade {
     private static SpotFacade instance;
     private static EntityManagerFactory emf;
+
+    LocationFacade locationFacade = LocationFacade.getLocationFacade(emf);
 
     private SpotFacade(){
 
@@ -35,14 +39,16 @@ public class SpotFacade {
     }
 
     //test er lavet og virker
-    public SpotDTO createSpot(SpotDTO spotDTO, TimelineDTO timelineDTO){
+    //skal måske laves om så til variabler i stedet for et spotDTO
+    public SpotDTO createSpot(String name, String des, LocalDate localDate, String locationId, TimelineDTO timelineDTO){
         EntityManager em = getEntityManager();
         int timelineID = timelineDTO.getId();
         Timeline timeline = new Timeline(timelineDTO);
         timeline.setId(timelineID);
-        spotDTO.setTimeline(timeline);
-        //refactor spot entity and spotdto!
-        Spot spot = new Spot(spotDTO.getName(), spotDTO.getDescription(), spotDTO.getTimestamp(), spotDTO.getLocation(), spotDTO.getTimeline());
+        //spotDTO.setTimeline(timeline);
+        LocationDTO locationDTO = locationFacade.findLocation(locationId);
+        Location spotLocation = new Location(locationDTO);
+        Spot spot = new Spot(name, des, localDate, spotLocation, timeline);
         try{
             em.getTransaction().begin();;
             em.persist(spot);
@@ -110,6 +116,11 @@ public class SpotFacade {
         }finally {
             em.close();
         }
+    }
+
+    public synchronized editSpot(SpotDTO spotDTO){
+        
+
     }
 
 

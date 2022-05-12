@@ -129,4 +129,15 @@ public class TimelineFacadeTest {
 
         assertEquals(expected,actual);
     }
+
+    @Test
+    public void seeTimelineTest(){
+        Integer id = timeline.getId();
+
+        String expected = timeline.getName();
+        String actual = timelineFacade.seeTimeline(id).getName();
+
+        assertEquals(expected, actual);
+    }
 }
+

@@ -49,4 +49,33 @@ public class LocationFacade {
         return ("Deleted location with id: " + id);
     }
 
+    public LocationDTO findLocation(String locationID){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            TypedQuery<Location> query = em.createQuery("SELECT l FROM Location l WHERE l.id = :id", Location.class);
+            query.setParameter("id", locationID);
+            Location location = query.getSingleResult();
+            em.getTransaction().commit();
+            return new LocationDTO(location);
+        }
+        finally {
+            em.close();
+        }
+
+        /*
+        * EntityManager em = emf.createEntityManager();
+        try {
+            User user1 = em.find(User.class, user.getUserName());
+            String username = user.getUserName();
+            TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t WHERE t.user.userName = :username", Timeline.class);
+            query.setParameter("username", username);
+            List<Timeline> timelines = query.getResultList();
+            return TimelineDTO.getDtos(timelines);
+        }finally {
+            em.close();
+        }*/
+
+    }
+
 }

@@ -7,6 +7,7 @@ import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.WebApplicationException;
 import java.util.List;
 
 public class TimelineFacade {
@@ -95,6 +96,7 @@ public class TimelineFacade {
             Timeline tm = query.getSingleResult();
             tm.setStartDate(startDate);
             tm.setEndDate(endDate);
+            //em.persist(tm);
             return (tm.getStartDate() + tm.getEndDate());
         } finally {
             em.close();
@@ -110,6 +112,10 @@ public class TimelineFacade {
         //get the timeline from id with select t from....
         EntityManager em = emf.createEntityManager();
         try{
+            TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t WHERE t.id = :id", Timeline.class);
+            query.setParameter("id", id);
+            Timeline timeline = query.getSingleResult();
+            return new TimelineDTO(timeline);
 
         }
         finally {
@@ -117,6 +123,28 @@ public class TimelineFacade {
         }
         //set the result to a dto
         //return th result
-        return null;
+    }
+
+    //test og endpoint mangler
+    public String deleteTimeline(int id){
+        EntityManager em = emf.createEntityManager();
+        Timeline timeline = em.find(Timeline.class, id);
+        if(timeline == null){
+            throw new WebApplicationException("The timeline does not exist");
+        }
+        else{
+            try{
+                em.getTransaction().begin();
+                TypedQuery<Timeline> query = em.createQuery("DELETE FROM Timeline t WHERE t.id = :id", Timeline.class);
+                query.setParameter("id", id);
+                query.executeUpdate();
+                em.getTransaction().commit();
+            }
+            finally {
+                em.close();
+            }
+        }
+
+        return "The timeline has been deleted";
     }
 }

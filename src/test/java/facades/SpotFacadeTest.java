@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.LocationDTO;
 import dtos.SpotDTO;
 import dtos.TimelineDTO;
 import entities.*;
@@ -94,6 +95,7 @@ public class SpotFacadeTest {
         String name = "Birthday";
         String description = "My birthday, I turned 13";
         LocalDate timestamp = LocalDate.of(1992, Month.MARCH, 8);
+        String locationID = "Q1";
 
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -101,15 +103,15 @@ public class SpotFacadeTest {
         TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t WHERE t.id = 1", Timeline.class);
         Timeline timeline = query.getSingleResult();
 
-        TypedQuery<Location> query1 = em.createQuery("SELECT l FROM Location l WHERE l.id = 'Q1'", Location.class);
-        Location location = query1.getSingleResult();
+        LocationFacade locationFacade = LocationFacade.getLocationFacade(emf);
+        LocationDTO location = locationFacade.findLocation(locationID);
         em.getTransaction().commit();
 
-        Spot spot= new Spot(name, description, timestamp, location, timeline);
+        Spot spot= new Spot(name, description, timestamp, new Location(location), timeline);
         SpotDTO spotDTO = new SpotDTO(spot);
         TimelineDTO timelineDTO = new TimelineDTO(timeline);
 
-        SpotDTO spotCreated = spotFacade.createSpot(spotDTO, timelineDTO);
+        SpotDTO spotCreated = spotFacade.createSpot(name, description, timestamp, locationID, timelineDTO);
 
         String expected = spotCreated.getName();
         String actual = spotDTO.getName();

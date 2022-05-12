@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import dtos.UserDTO;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
@@ -44,6 +45,11 @@ public class User implements Serializable {
     public User(String userName, String userPass) {
         this.userName = userName;
         this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
+    }
+
+    public User(UserDTO userDTO) {
+        this.userName = userDTO.getUserName();
+        this.userPass = userDTO.getPassword();
     }
 
     //TODO Change when password is hashed
