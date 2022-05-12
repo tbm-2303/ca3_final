@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityResult;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.WebApplicationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -117,10 +118,46 @@ public class SpotFacade {
             em.close();
         }
     }
+    //test virker, og endpoint mangler
+    public synchronized SpotDTO editSpot(SpotDTO spotDTO){
+        EntityManager em = emf.createEntityManager();
+        Spot spotUpdated = em.find(Spot.class, spotDTO.getId());
+        try{
+            em.getTransaction().begin();
+            spotUpdated.setName(spotDTO.getName());
+            spotUpdated.setDescription(spotDTO.getDescription());
+            spotUpdated.setTimeStamp(spotDTO.getTimestamp());
+            spotUpdated.setLocation(spotDTO.getLocation());
+            //spotUpdated.setId(spotDTO.getId());
+            //spotUpdated.setTimeline(spotDTO.getTimeline());
+            em.merge(spotUpdated);
+            em.getTransaction().commit();
+            return new SpotDTO(spotUpdated);
+        }finally {
+            em.close();
+        }
 
-    public synchronized editSpot(SpotDTO spotDTO){
-        
-
+    }
+    //test virker, og endpoint mangler
+    public String deleteSpot(Integer id){
+        EntityManager em = emf.createEntityManager();
+        Spot spot = em.find(Spot.class, id);
+        if(spot == null){
+            throw new WebApplicationException("The timeline does not exist");
+        }
+        else{
+            try{
+                em.getTransaction().begin();
+                TypedQuery<Spot> query = em.createQuery("DELETE FROM Spot s WHERE s.id = :id", Spot.class);
+                query.setParameter("id", id);
+                query.executeUpdate();
+                em.getTransaction().commit();
+            }
+            finally {
+                em.close();
+            }
+        }
+        return "The spot with id: " + id + " has been deleted";
     }
 
 
