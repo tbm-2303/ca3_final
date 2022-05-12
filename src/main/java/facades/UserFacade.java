@@ -16,9 +16,7 @@ import utils.Utility;
 
 import java.util.List;
 
-/**
- * @author lam@cphbusiness.dk
- */
+
 public class UserFacade {
 
     private static EntityManagerFactory emf;
@@ -27,11 +25,6 @@ public class UserFacade {
     private UserFacade() {
     }
 
-    /**
-     *
-     * @param _emf
-     * @return the instance of this facade.
-     */
     public static UserFacade getUserFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
@@ -67,17 +60,18 @@ public class UserFacade {
     }
 
 
-    //-------------------------------------------nye metoder
 
     //dette er kun for alm bruger(altid user role)
     public UserDTO create(UserDTO userDTO){
         EntityManager em = getEntityManager();
         User user = new User(userDTO.getUserName(), userDTO.getPassword());
-        Role role = new Role("user");
+        Role role = new Role("basic");
         user.addRole(role);
         try {
             em.getTransaction().begin();
+            em.persist(role);
             em.persist(user);
+            em.merge(user);
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -85,6 +79,24 @@ public class UserFacade {
         return new UserDTO(user);
     }
 
+    public UserDTO createAdmin(UserDTO userDTO){
+        EntityManager em = getEntityManager();
+        User user = new User(userDTO.getUserName(), userDTO.getPassword());
+        Role roleAdmin = new Role("admin");
+        user.addRole(roleAdmin);
+        try {
+            em.getTransaction().begin();
+            em.persist(roleAdmin);
+            em.persist(user);
+            em.merge(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new UserDTO(user);
+    }
+
+    //test mangler
     public UserDTO getById(String username) {
         EntityManager em = emf.createEntityManager();
         User user = em.find(User.class, username);

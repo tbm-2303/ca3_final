@@ -1,7 +1,6 @@
 package rest;
 
 import dtos.TimelineDTO;
-import dtos.UserDTO;
 import entities.Role;
 import entities.Spot;
 import entities.Timeline;
@@ -15,6 +14,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
@@ -90,6 +90,7 @@ public class TimelineResourceTest {
     
     private static String securityToken;
 
+    @Test
     private static void login(String role, String password) {
         String json = String.format("{username: \"%s\", password: \"%s\"}", role, password);
         securityToken = given()

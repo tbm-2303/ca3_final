@@ -89,24 +89,24 @@ public class UserResourceTest {
                 .body("msg", equalTo("Hello World"));
     }
 
-    @Disabled
+
     @Test
     public void testServerIsUp(){
         System.out.println("Server for testing is up");
-        given().when().get("/info").then().statusCode(200);
+        given().when().get("/user").then().statusCode(200);
     }
 
     @Disabled
     @Test
     //HUSK AT TJEKKE SENERE NÅR HJEMMESIDEN KØRER!!!
-    public void testGetAllUsers(){
+    public void getAllUsersTest(){
         List<UserDTO> userDTOList;
 
         userDTOList = given()
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(ContentType.JSON)
                 .when()
-                .get("/info/all")
+                .get("/user/allUsers")
                 .then()
                 .statusCode(200)
                 .extract()
@@ -115,5 +115,36 @@ public class UserResourceTest {
                 .getList("", UserDTO.class);
 
                 assertEquals(2, userDTOList.size());
+    }
+    //create user
+    //create admin
+    //deleteuser
+    @Test
+    public void createUserTest () throws Exception{
+        System.out.println("Creating basic user");
+        given()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new UserDTO(new User("FedeFinnOgFunnyBoys", "FedeFinn")))
+                .when()
+                .post("user/createuser")
+                .then()
+                .body("username", equalTo("FedeFinnOgFunnyBoys"));
+
+
+
+    }
+
+    @Test
+    public void createAdminTest() throws Exception{
+        System.out.println("Creating admin user");
+        given()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new UserDTO(new User("Frank", "FranksPassword")))
+                .when()
+                .post("user/createAdmin")
+                .then()
+                .body("user_name", equalTo("Frank"));
+                //.body("password", equalTo("FranksPassword"))
+
     }
 }

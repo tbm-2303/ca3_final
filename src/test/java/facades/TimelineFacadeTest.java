@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.TimelineDTO;
+import dtos.UserDTO;
 import entities.Location;
 import entities.Role;
 import entities.Timeline;
@@ -95,7 +96,8 @@ public class TimelineFacadeTest {
         EntityManager em = emf.createEntityManager();
         Role role = new Role("test");
         List<Role> roles = new ArrayList<>();
-        User user= new User("Dorte", "Kodeord1");
+        User user = new User("Dorte", "Kodeord1");
+        UserDTO userDTO= new UserDTO(user);
         Timeline timeline = new Timeline("My life", "This is a timeline about my life", "1977", "2051", user);
         try{
             em.getTransaction().begin();
@@ -106,7 +108,7 @@ public class TimelineFacadeTest {
             em.close();
         }
 
-        List<TimelineDTO> timelinesFound = timelineFacade.getAll(user);
+        List<TimelineDTO> timelinesFound = timelineFacade.getAll(userDTO);
         String actual = timelinesFound.get(0).getName();
 
         String expected = timeline.getName();
@@ -125,9 +127,9 @@ public class TimelineFacadeTest {
         Integer id = timeline.getId();
 
         String expected = "1900" + "2022";
-        String actual = timelineFacade.editInterval(id, "1900", "2022");
+        TimelineDTO actual = timelineFacade.editInterval(id, "1900", "2022");
 
-        assertEquals(expected,actual);
+        assertEquals(expected,actual.getStartDate()+actual.getEndDate());
     }
 
     @Test

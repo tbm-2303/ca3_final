@@ -40,7 +40,6 @@ public class SpotFacade {
     }
 
     //test er lavet og virker
-    //skal måske laves om så til variabler i stedet for et spotDTO
     public SpotDTO createSpot(String name, String des, LocalDate localDate, String locationId, TimelineDTO timelineDTO){
         EntityManager em = getEntityManager();
         int timelineID = timelineDTO.getId();

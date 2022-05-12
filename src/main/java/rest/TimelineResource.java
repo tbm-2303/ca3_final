@@ -3,11 +3,13 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.TimelineDTO;
+import dtos.UserDTO;
 import entities.User;
 import facades.TimelineFacade;
 import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.ConcurrencyManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -43,8 +45,9 @@ public class TimelineResource {
     @Produces({MediaType.APPLICATION_JSON})
     @RolesAllowed("admin")
     @Path("/allTimelines")
-    public String getAllTimelines(User u){
-        List<TimelineDTO> timelineDTOList = FACADE.getAll(u);
+    public String getAllTimelines(String user){
+        UserDTO userDTO = GSON.fromJson(user, UserDTO.class);
+        List<TimelineDTO> timelineDTOList = FACADE.getAll(userDTO);
         return "All timelines: " + timelineDTOList;
     }
 
@@ -56,4 +59,25 @@ public class TimelineResource {
     public String deleteTimeline(@PathParam("id") Integer id){
         return "{\"result\":\"" + FACADE.deleteTimeline(id) + "\"}";
     }
+    //see timeline
+
+    @GET
+    @Path("/seeTimeline/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("basic")
+    public String seeTimeline(@PathParam("id") Integer id){
+        return GSON.toJson(FACADE.seeTimeline(id));
+    }
+
+    @POST
+    @Path("/editTimeline/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("basic")
+    public String editTimeline (@PathParam("id") Integer id, String startDate, String endDate){
+        TimelineDTO updated = FACADE.editInterval(id, startDate, endDate);
+        return GSON.toJson(updated);
+    }
+    //edit interval
 }

@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.TimelineDTO;
+import dtos.UserDTO;
 import entities.Spot;
 import entities.Timeline;
 import entities.User;
@@ -10,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.WebApplicationException;
+import java.sql.Time;
 import java.util.List;
 
 public class TimelineFacade {
@@ -63,11 +65,10 @@ public class TimelineFacade {
     }*/
 
     //Test er lavet og virker
-    public List<TimelineDTO> getAll(User user){
+    public List<TimelineDTO> getAll(UserDTO userDTO){
         EntityManager em = emf.createEntityManager();
         try {
-            User user1 = em.find(User.class, user.getUserName());
-            String username = user.getUserName();
+            String username = userDTO.getUserName();
             TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t WHERE t.user.userName = :username", Timeline.class);
             query.setParameter("username", username);
             List<Timeline> timelines = query.getResultList();
@@ -90,7 +91,7 @@ public class TimelineFacade {
     }
 
     //test virker
-    public String editInterval(Integer id, String startDate, String endDate){
+    public TimelineDTO editInterval(Integer id, String startDate, String endDate){
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t WHERE t.id = :id", Timeline.class);
@@ -98,8 +99,8 @@ public class TimelineFacade {
             Timeline tm = query.getSingleResult();
             tm.setStartDate(startDate);
             tm.setEndDate(endDate);
-            //em.persist(tm);
-            return (tm.getStartDate() + tm.getEndDate());
+            em.persist(tm);
+            return new TimelineDTO(tm);
         } finally {
             em.close();
         }

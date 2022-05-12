@@ -33,10 +33,10 @@ public class UserResource {
     @Consumes({MediaType.APPLICATION_JSON})
     public String createUser(String user){
         UserDTO userDTO = GSON.fromJson(user,UserDTO.class);
-        List<Role> roles = new ArrayList<>();
-        Role role = new Role("basic");
-        roles.add(role);
-        userDTO.setRoleList(roles);
+        //List<Role> roles = new ArrayList<>();
+        //Role role = new Role("basic");
+        //roles.add(role);
+        //userDTO.setRoleList(roles);
         UserDTO createdUser = FACADE.create(userDTO);
         return GSON.toJson(createdUser);
     }
@@ -48,11 +48,7 @@ public class UserResource {
     @Consumes({MediaType.APPLICATION_JSON})
     public String createAdmin(String user){
         UserDTO userDTO = GSON.fromJson(user, UserDTO.class);
-        List<Role> roles = new ArrayList<>();
-        Role role = new Role("admin");
-        roles.add(role);
-        userDTO.setRoleList(roles);
-        UserDTO createdUser = FACADE.create(userDTO);
+        UserDTO createdUser = FACADE.createAdmin(userDTO);
         return GSON.toJson(createdUser);
     }
 
@@ -86,7 +82,7 @@ public class UserResource {
 
 
     @DELETE
-    @Path("{username}")
+    @Path("/delete/{username}")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed("admin")
