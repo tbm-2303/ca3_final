@@ -113,4 +113,14 @@ public class User implements Serializable {
         this.timelinelist.add(timeline);
         timeline.setUser(this);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", userPass='" + userPass + '\'' +
+                ", roleList=" + roleList +
+                ", timelinelist=" + timelinelist +
+                '}';
+    }
 }

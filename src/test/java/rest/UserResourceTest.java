@@ -128,7 +128,8 @@ public class UserResourceTest {
                 .when()
                 .post("user/createuser")
                 .then()
-                .body("username", equalTo("FedeFinnOgFunnyBoys"));
+                .body("userName", equalTo("FedeFinnOgFunnyBoys"))
+                .body("userPass", equalTo("FedeFinnsPass"));
 
 
 
